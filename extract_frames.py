@@ -6,7 +6,7 @@ def extract_frames(video_path, output_folder, frame_rate=1):
     """Extracts frames from a video file and saves them in the specified output folder."""
    
     if not os.path.exists(video_path):
-        print(f"❌ Error: Video file not found - {video_path}")
+        print(f"Error: Video file not found - {video_path}")
         return
 
 
@@ -18,11 +18,11 @@ def extract_frames(video_path, output_folder, frame_rate=1):
 
 
     if not cap.isOpened():
-        print(f"❌ Error: Unable to open video {video_path}. Skipping...")
+        print(f"Error: Unable to open video {video_path}. Skipping...")
         return
 
 
-    print(f"✅ Processing video: {video_path}")
+    print(f"Processing video: {video_path}")
 
 
     frame_id = 0
@@ -43,14 +43,14 @@ def extract_frames(video_path, output_folder, frame_rate=1):
         if frame_id % frame_interval == 0:
             frame_name = os.path.join(output_folder, f"frame_{frame_id}.jpg")
             cv2.imwrite(frame_name, frame)
-            print(f"🖼️ Saved: {frame_name}")
+            print(f"Saved: {frame_name}")
 
 
         frame_id += 1
 
 
     cap.release()
-    print(f"✅ Finished extracting frames from: {video_path}\n")
+    print(f"Finished extracting frames from: {video_path}\n")
 
 
 # Define dataset paths
@@ -79,5 +79,5 @@ for video_file in os.listdir(non_violence_folder):
     extract_frames(video_path, output_folder)
 
 
-print("🎉 Frame extraction process completed!")
+print("Frame extraction process completed!")
 print(f"Total frames extracted: {len(os.listdir(frames_folder))}")
