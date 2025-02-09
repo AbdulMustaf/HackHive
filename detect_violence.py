@@ -2,15 +2,10 @@ import os
 import cv2
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.applications import MobileNet
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
-from tensorflow.keras.models import Model, load_model
-from flask import Flask, render_template, Response
-
-import cv2
-import numpy as np
 from tensorflow.keras.models import load_model
+import time
+import threading
+import winsound
 
 # Load the trained model
 print("⏳ Loading model...")
@@ -31,6 +26,17 @@ if not cap.isOpened():
 
 print("✅ Webcam opened successfully!")
 
+# Define violence detection threshold
+SEVERE_VIOLENCE_THRESHOLD = 0.80  # Severe violence threshold
+
+# Function to play alarm sound (only once per detection)
+def play_alarm():
+    print("🔊 Playing alarm sound...")
+    winsound.Beep(1000, 500)  # Beep at 1000 Hz for 500ms
+
+# Initialize detection variables
+severe_violence_detected = False
+
 while True:
     ret, frame = cap.read()
     
@@ -38,8 +44,6 @@ while True:
         print("❌ Error: No frame captured. Exiting loop.")
         break
 
-    print("📸 Frame captured!")  # Debugging print
-    
     resized_frame = cv2.resize(frame, (224, 224))
     normalized_frame = resized_frame / 255.0
     input_frame = np.expand_dims(normalized_frame, axis=0)
@@ -47,12 +51,24 @@ while True:
     prediction = model.predict(input_frame)
     print(f"🧠 Prediction score: {prediction[0][0]}")  # Debugging print
 
-    color = (0, 255, 0)
-    text = "No Violence Detected"
-    if prediction[0][0] > 0.5:
-        color = (0, 0, 255)
-        text = "Violence Detected!"
+    # Severe Violence Detection Logic
+    if prediction[0][0] > SEVERE_VIOLENCE_THRESHOLD:
+        color = (0, 0, 255)  # Red alert color
+        text = "VIOLENCE DETECTED!"
+        
+        # Play alarm sound only once per detection
+        if not severe_violence_detected:
+            severe_violence_detected = True
+            threading.Thread(target=play_alarm, daemon=True).start()
+    
+    else:
+        color = (0, 255, 0)  # Green (Safe)
+        text = "No Violence Detected"
+        
+        # Reset detection flag
+        severe_violence_detected = False
 
+    # Draw text and bounding box
     cv2.rectangle(frame, (0, 0), (frame.shape[1], frame.shape[0]), color, 10)
     cv2.putText(frame, text, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
 
