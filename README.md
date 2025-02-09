@@ -1,25 +1,38 @@
-# Hospital Violence Detection System
+## Design Rationale
 
-## 📌 Overview
-Workplace violence in healthcare is a serious but often overlooked issue, with studies showing that **1 in 5 healthcare workers** experience physical violence or verbal abuse. Our **AI-powered Hospital Violence Detection System** aims to detect and prevent violent incidents in real time using video and audio analysis, ensuring a safer work environment for medical staff and patients.
+### **Objective and Challenges**
+MedSafe AI is designed to prevent **severe violence** in hospitals, specifically targeting **aggressive threats** against **doctors and healthcare professionals**. The system is optimized for **real-time detection** while ensuring **low false positives** and **HIPAA compliance**.
 
-## 🎯 Features
-- **Real-time Detection**: Identifies signs of verbal aggression and physical violence.
-- **AI-Powered Analysis**: Uses computer vision and deep learning to distinguish between normal and aggressive behavior.
-- **Automated Alerts**: Notifies security personnel instantly when violence is detected.
-- **Privacy-Focused**: No personal identification—analyzes actions, not individuals.
-- **User-Friendly Dashboard**: Displays alerts and logs for monitoring and review.
+### **Design Choices and Justifications**
 
-## 🏥 Beneficiaries
-- **Healthcare Workers**: Provides a safer work environment by reducing incidents of violence.
-- **Hospitals & Clinics**: Enhances security without additional manpower.
-- **Patients**: Ensures a calm and safe healthcare experience.
+#### **1. AI & Machine Learning Model Selection**
+- **Computer Vision (CV):** Detects **aggressive body language and movements**.
+- **Natural Language Processing (NLP):** Analyzes speech to identify **verbal threats**.
+- **Audio Analysis:** Identifies **shouting, angry tones, and hostile speech patterns**.
+- **Justification:** A **multimodal AI** approach ensures **high accuracy** while reducing **false alarms**.
 
-## 🔍 Ethical Considerations
-- **Bias Mitigation**: Trained on diverse datasets to avoid discrimination.
-- **Privacy & Security**: All data is encrypted, and no personal identifiers are stored.
-- **Transparency**: AI decisions are explainable and auditable.
+#### **2. Tools and Frameworks**
 
-## 🛠️ Tech Stack
-- **Programming Language**: Python
-- **Frameworks & Libraries**: OpenCV, TensorFlo
+| **Component** | **Technology/Tool** | **Justification** |
+|--------------|-----------------|----------------|
+| **Computer Vision** | OpenCV + YOLOv8 | Real-time body language and threat detection |
+| **Speech-to-Text** | OpenAI Whisper API | High accuracy in noisy hospital environments |
+| **Sentiment & NLP** | SpaCy / BERT | Context-aware threat analysis |
+| **Audio Processing** | Librosa + MFCC | Distinguishes anger from normal speech |
+| **Database** | PostgreSQL | Secure logging of detected events |
+| **Real-Time Processing** | Kafka / RabbitMQ | Handles continuous streaming data efficiently |
+| **Deployment** | Docker + Kubernetes | Ensures scalability and portability |
+| **Privacy & Security** | Edge AI + Differential Privacy | Ensures HIPAA compliance |
+
+#### **3. How the Design Addresses Challenges**
+| **Challenge** | **Solution** |
+|--------------|-------------|
+| **ER is chaotic and unpredictable** | Multimodal AI ensures **robust detection** across video, audio, and speech |
+| **Real-time detection is needed** | **Low-latency models** (YOLOv8, Whisper) with **stream processing (Kafka)** |
+| **Minimizing false positives** | Combines **CV, NLP, and audio** for **context-aware detection** |
+| **HIPAA compliance and privacy concerns** | **Edge AI processing** ensures **no personal data storage** |
+
+---
+
+### **Conclusion**
+The system integrates **computer vision, NLP, and audio analysis** to create a **real-time, scalable, and ethical** hospital security solution. These design choices enable **efficient violence prevention** while maintaining **privacy and compliance**.
