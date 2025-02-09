@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
 
-
 app = Flask(__name__)
 model = load_model('violence_detection_model.h5')
 
