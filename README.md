@@ -19,7 +19,7 @@ Workplace violence in healthcare is a serious but often overlooked issue, with s
 - **Programming Language**: Python
 - **Frameworks & Libraries**: OpenCV, TensorFlo
 
-# 🚀 How to Use HackHive (MedSafe AI)
+# 🚀 How to Use MedSafe AI
 
 HackHive (MedSafe AI) is an AI-powered **hospital security system** that detects **aggressive behavior** and **alerts security personnel** in real time. Follow the steps below to install, configure, and run the system.
 
