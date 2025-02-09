@@ -8,30 +8,30 @@ import threading
 import winsound
 
 # Load the trained model
-print("⏳ Loading model...")
+print("Loading model")
 model = load_model('violence_detection_model.h5')
-print("✅ Model loaded successfully!")
+print("Model loaded successfully!")
 
 # Open webcam
-print("🎥 Opening webcam...")
+print("Opening webcam")
 cap = cv2.VideoCapture(0)
 
 if not cap.isOpened():
-    print("❌ Error: Cannot access webcam. Trying index 1...")
+    print("Error: Cannot access webcam. Trying again")
     cap = cv2.VideoCapture(1)
 
 if not cap.isOpened():
-    print("❌ Critical Error: No webcam found. Exiting.")
+    print("Critical Error: No webcam found. Exiting.")
     exit()
 
-print("✅ Webcam opened successfully!")
+print("Webcam opened successfully!")
 
 # Define violence detection threshold
 SEVERE_VIOLENCE_THRESHOLD = 0.80  # Severe violence threshold
 
 # Function to play alarm sound (only once per detection)
 def play_alarm():
-    print("🔊 Playing alarm sound...")
+    print("Playing alarm sound")
     winsound.Beep(1000, 500)  # Beep at 1000 Hz for 500ms
 
 # Initialize detection variables
@@ -41,7 +41,7 @@ while True:
     ret, frame = cap.read()
     
     if not ret:
-        print("❌ Error: No frame captured. Exiting loop.")
+        print("Error: No frame captured. Exiting loop.")
         break
 
     resized_frame = cv2.resize(frame, (224, 224))
@@ -49,7 +49,7 @@ while True:
     input_frame = np.expand_dims(normalized_frame, axis=0)
 
     prediction = model.predict(input_frame)
-    print(f"🧠 Prediction score: {prediction[0][0]}")  # Debugging print
+    print(f"Prediction score: {prediction[0][0]}")  # Debugging print
 
     # Severe Violence Detection Logic
     if prediction[0][0] > SEVERE_VIOLENCE_THRESHOLD:
@@ -75,9 +75,9 @@ while True:
     cv2.imshow('Violence Detection', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        print("🔴 Exiting...")
+        print("Exiting")
         break
 
 cap.release()
 cv2.destroyAllWindows()
-print("✅ Webcam released. Script ended.")
+print("Webcam released. Script ended.")
